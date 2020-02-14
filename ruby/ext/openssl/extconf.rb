@@ -44,8 +44,8 @@ unless result
   end
 
   result = have_header("openssl/ssl.h")
-  result &&= %w[crypto libeay32].any? {|lib| have_library(lib, "CRYPTO_malloc")}
-  result &&= %w[ssl ssleay32].any? {|lib| have_library(lib, "SSL_new")}
+  result &&= %w[libcrypto libeay32].any? {|lib| have_library(lib, "CRYPTO_malloc")}
+  result &&= %w[libssl ssleay32].any? {|lib| have_library(lib, "SSL_new")}
   unless result
     Logging::message "=== Checking for required stuff failed. ===\n"
     Logging::message "Makefile wasn't created. Fix the errors above.\n"

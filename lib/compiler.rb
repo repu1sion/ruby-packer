@@ -166,9 +166,9 @@ class Compiler
           File.utime(Time.at(0), Time.at(0), x)
         end
         if Gem.win_platform?
-          @utils.run(@compile_env, "perl Configure VC-WIN64A --prefix=\"#{target}\"")
+          @utils.run(@compile_env, "perl Configure VC-WIN64A --prefix=\"#{target}\" --openssldir=\"#{target}\"")
           @utils.run(@compile_env, 'nmake')
-          @utils.run(@compile_env, 'nmake install')
+          #@utils.run(@compile_env, 'nmake install')
         else
           @utils.run(@compile_env, './config')
           @utils.run(@compile_env, "make #{@options[:make_args]}")
@@ -381,12 +381,12 @@ class Compiler
           # TODO make those win32 ext work
           @utils.chdir('ext') do
             @utils.rm_rf('dbm')
-            @utils.rm_rf('digest')
+          #@utils.rm_rf('digest')
             @utils.rm_rf('etc')
             @utils.rm_rf('fiddle')
             @utils.rm_rf('gdbm')
             @utils.rm_rf('mathn')
-            @utils.rm_rf('openssl')
+           #@utils.rm_rf('openssl')
             @utils.rm_rf('pty')
             @utils.rm_rf('readline')
             @utils.rm_rf('ripper')
@@ -770,8 +770,10 @@ class Compiler
     end
     
     if Gem.win_platform?
+      @pth_env = "#{File.join(@options[:tmpdir], 'openssl')}:#{ENV['PATH']}"
       @compile_env = {
         'CI' => 'true',
+        'PATH' => @pth_env,
         'ENCLOSE_IO_USE_ORIGINAL_RUBY' => '1'
       }
     else
@@ -788,8 +790,8 @@ class Compiler
     if Gem.win_platform?
       @ldflags += " -libpath:#{@utils.escape File.join(@options[:tmpdir], 'zlib').gsub('/', '\\')} #{@utils.escape File.join(@options[:tmpdir], 'zlib', 'zlib.lib')} "
       @cflags += " -I#{@utils.escape File.join(@options[:tmpdir], 'zlib')} "
-      @ldflags += " -libpath:#{@utils.escape File.join(@options[:tmpdir], 'openssl')} #{@utils.escape File.join(@options[:tmpdir], 'openssl', 'lib', 'libcrypto.lib')} "
-      @ldflags += " -libpath:#{@utils.escape File.join(@options[:tmpdir], 'openssl')} #{@utils.escape File.join(@options[:tmpdir], 'openssl', 'lib', 'libssl.lib')} "
+      @ldflags += " -libpath:#{@utils.escape File.join(@options[:tmpdir], 'openssl')} #{@utils.escape File.join(@options[:tmpdir], 'openssl', 'libcrypto.lib')} "
+      @ldflags += " -libpath:#{@utils.escape File.join(@options[:tmpdir], 'openssl')} #{@utils.escape File.join(@options[:tmpdir], 'openssl', 'libssl.lib')} "
       @cflags += " -I#{@utils.escape File.join(@options[:tmpdir], 'openssl', 'include')} "
     else
       @ldflags += " -L#{@utils.escape File.join(@options[:tmpdir], 'zlib')} #{@utils.escape File.join(@options[:tmpdir], 'zlib', 'libz.a')} "
