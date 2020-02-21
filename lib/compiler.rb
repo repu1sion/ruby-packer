@@ -770,12 +770,14 @@ class Compiler
     end
     
     if Gem.win_platform?
-      @pth_env = "#{File.join(@options[:tmpdir], 'openssl')}:#{ENV['PATH']}"
+      @pth_env = "#{File.join(@options[:tmpdir], 'openssl')};#{ENV['PATH']}"
       @compile_env = {
         'CI' => 'true',
         'PATH' => @pth_env,
         'ENCLOSE_IO_USE_ORIGINAL_RUBY' => '1'
       }
+      puts "compile env:"
+      puts @compile_env
     else
       @compile_env = {
         'CI' => 'true',

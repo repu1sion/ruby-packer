@@ -979,6 +979,8 @@ miniruby$(EXEEXT):
 		$(ECHO) linking $(@:\=/)
 		$(Q) $(PURIFY) $(CC) $(CFLAGS) $(MAINOBJ) $(MINIOBJS) $(COMMONOBJS) $(LIBS) -Fe$@ \
 			..\zlib\zlib.lib \
+			..\openssl\libcrypto.lib \
+			..\openssl\libssl.lib \
 			-link $(LDFLAGS)
 		@$(RM) miniruby.lib miniruby.exp
 		$(Q) miniruby.exe -v
@@ -1013,8 +1015,12 @@ ruby_static.exe:	$(MAINOBJ) $(LIBRUBY_SO) $(RUBY_INSTALL_NAME).res
 			ext\sdbm\sdbm.lib \
 			ext\stringio\stringio.lib \
 			ext\strscan\strscan.lib \
+			ext\digest\digest.lib \
 			ext\zlib\zlib.lib \
 			..\zlib\zlib.lib \
+			ext\openssl\openssl.lib \
+			..\openssl\libcrypto.lib \
+			..\openssl\libssl.lib \
 			-link $(LDFLAGS) $(XLDFLAGS)
 		$(Q) $(LDSHARED_0)
 		$(Q) $(LDSHARED_1)
