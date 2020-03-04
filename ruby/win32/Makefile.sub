@@ -1016,6 +1016,11 @@ ruby_static.exe:	$(MAINOBJ) $(LIBRUBY_SO) $(RUBY_INSTALL_NAME).res
 			ext\stringio\stringio.lib \
 			ext\strscan\strscan.lib \
 			ext\digest\digest.lib \
+			ext\digest\bubblebabble\bubblebabble.lib \
+			ext\digest\md5\md5.lib \
+			ext\digest\rmd160\rmd160.lib \
+			ext\digest\sha1\sha1.lib \
+			ext\digest\sha2\sha2.lib \
 			ext\zlib\zlib.lib \
 			..\zlib\zlib.lib \
 			ext\openssl\openssl.lib \
