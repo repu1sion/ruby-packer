@@ -1021,6 +1021,14 @@ ruby_static.exe:	$(MAINOBJ) $(LIBRUBY_SO) $(RUBY_INSTALL_NAME).res
 			ext\digest\rmd160\rmd160.lib \
 			ext\digest\sha1\sha1.lib \
 			ext\digest\sha2\sha2.lib \
+			ext\etc\etc.lib \
+			ext\fiddle\fiddle.lib \
+			ext\fiddle\libffi-3.2.1\.libs\libffi_convenience.lib \
+			ext\mathn\complex\complex.lib \
+			ext\mathn\rational\rational.lib \
+			ext\ripper\ripper.lib \
+			ext\socket\socket.lib \
+			ext\win32\resolv\resolv.lib \
 			ext\zlib\zlib.lib \
 			..\zlib\zlib.lib \
 			ext\openssl\openssl.lib \

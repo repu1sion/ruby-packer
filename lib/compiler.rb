@@ -380,18 +380,18 @@ class Compiler
           end
           # TODO make those win32 ext work
           @utils.chdir('ext') do
-            @utils.rm_rf('dbm')
+          #@utils.rm_rf('dbm')
           #@utils.rm_rf('digest')
-            @utils.rm_rf('etc')
-            @utils.rm_rf('fiddle')
-            @utils.rm_rf('gdbm')
-            @utils.rm_rf('mathn')
-           #@utils.rm_rf('openssl')
-            @utils.rm_rf('pty')
-            @utils.rm_rf('readline')
-            @utils.rm_rf('ripper')
-            @utils.rm_rf('socket')
-            @utils.rm_rf('win32')
+          #@utils.rm_rf('etc')
+          #@utils.rm_rf('fiddle')
+          #@utils.rm_rf('gdbm')
+          #@utils.rm_rf('mathn')
+          #@utils.rm_rf('openssl')
+          #@utils.rm_rf('pty')
+          #@utils.rm_rf('readline')
+          #@utils.rm_rf('ripper')
+          #@utils.rm_rf('socket')
+          #@utils.rm_rf('win32')
             @utils.rm_rf('win32ole')
           end
           # PATCH win32\Makefile.sub for 2nd pass
