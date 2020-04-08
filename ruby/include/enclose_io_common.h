@@ -294,6 +294,11 @@ EncloseIOReadDirectoryChangesW(
 );
 
 HMODULE
+EncloseIOLoadLibraryW(
+	LPCWSTR lpLibFileName
+);
+
+HMODULE
 EncloseIOLoadLibraryExW(
 	LPCWSTR lpLibFileName,
 	HANDLE hFile,

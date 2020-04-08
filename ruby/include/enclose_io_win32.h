@@ -62,6 +62,7 @@
 #define DeviceIoControl(...) EncloseIODeviceIoControl(__VA_ARGS__)
 #define CreateIoCompletionPort(...) EncloseIOCreateIoCompletionPort(__VA_ARGS__)
 #define ReadDirectoryChangesW(...) EncloseIOReadDirectoryChangesW(__VA_ARGS__)
+#define LoadLibraryW(...) EncloseIOLoadLibraryW(__VA_ARGS__)
 #define LoadLibraryExW(...) EncloseIOLoadLibraryExW(__VA_ARGS__)
 #define CreateProcessW(...) EncloseIOCreateProcessW(__VA_ARGS__)
 #define SetCurrentDirectoryW(...) EncloseIOSetCurrentDirectoryW(__VA_ARGS__)

@@ -1249,6 +1249,8 @@ rb_w32_check_imported(HMODULE ext, HMODULE mine)
 void*
 dln_load(const char *file)
 {
+    printf("DLN: dln_load() called with file: %s\n", file);
+
 #if (defined _WIN32 || defined USE_DLN_DLOPEN) && defined RUBY_EXPORT
     static const char incompatible[] = "incompatible library version";
 #endif
@@ -1258,6 +1260,7 @@ dln_load(const char *file)
 #endif
 
 #if defined _WIN32
+    printf("DLN: win32\n");
     HINSTANCE handle;
     WCHAR *winfile;
     char message[1024];
@@ -1274,10 +1277,15 @@ dln_load(const char *file)
     }
 
     /* Load file */
+    //repu1sion
+    printf("DLN: LoadLibraryW : %s\n", file);
+    //wprintf(L"%s\n", winfile);
     handle = LoadLibraryW(winfile);
+    printf("DLN: handle is: %d\n", handle);
     free(winfile);
 
     if (!handle) {
+    	printf("DLN: FAILED TO LOAD LIBRARY WITH LoadLibraryW() : %s\n", file);
 	error = dln_strerror();
 	goto failed;
     }
@@ -1298,6 +1306,7 @@ dln_load(const char *file)
     (*init_fct)();
     return handle;
 #else
+    printf("DLN: linux\n");
 #ifdef USE_DLN_A_OUT
     if (load(file) == -1) {
 	error = dln_strerror();
@@ -1328,6 +1337,7 @@ dln_load(const char *file)
 #endif
 
 	/* Load file */
+    	printf("DLN: dlopen() used : %s\n", file);
 	if ((handle = (void*)dlopen(file, RTLD_LAZY|RTLD_GLOBAL)) == NULL) {
 	    error = dln_strerror();
 	    goto failed;

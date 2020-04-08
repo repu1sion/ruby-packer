@@ -1057,13 +1057,16 @@ EncloseIOReadDirectoryChangesW(
 	}
 }
 
+//repu1sion
 HMODULE
-EncloseIOLoadLibraryExW(
-	LPCWSTR lpLibFileName,
-	HANDLE hFile,
-	DWORD dwFlags
+EncloseIOLoadLibraryW(
+	LPCWSTR lpLibFileName
 )
 {
+	//#error compiling enclose load library
+	printf("ELL: EncloseIOLoadLibraryW() called\n");
+
+	//relative path
 	if (enclose_io_cwd[0] && enclose_io_is_relative_w(lpLibFileName)) {
 		sqfs_path enclose_io_expanded;
 		size_t enclose_io_cwd_len;
@@ -1076,6 +1079,73 @@ EncloseIOLoadLibraryExW(
 		W_ENCLOSE_IO_PATH_CONVERT(lpLibFileName);
 		ENCLOSE_IO_GEN_EXPANDED_NAME(enclose_io_converted);
 		
+		printf("ELL: enclose expanded: %s\n", enclose_io_expanded);
+		//printf("ELL: mkdir: %s\n", mkdir_workdir_expanded);
+		ENCLOSE_IO_CONSIDER_MKDIR_WORKDIR_RETURN(
+			enclose_io_expanded,
+			LoadLibraryW(
+				squash_extract(enclose_io_fs, enclose_io_expanded, "dll")
+			),
+			LoadLibrary(
+				mkdir_workdir_expanded
+			)
+		);
+	}
+	//absolute path
+	else if (enclose_io_is_path_w(lpLibFileName)) {
+		sqfs_path enclose_io_converted_storage;
+		char *enclose_io_converted;
+		char *enclose_io_i;
+		size_t enclose_io_converted_length;
+
+		W_ENCLOSE_IO_PATH_CONVERT(lpLibFileName);
+		
+		printf("ELL: enclose converted: %s\n", enclose_io_converted);
+		//printf("ELL: mkdir: %s\n", mkdir_workdir_expanded);
+		ENCLOSE_IO_CONSIDER_MKDIR_WORKDIR_RETURN(
+			enclose_io_converted,
+			LoadLibraryW(
+				squash_extract(enclose_io_fs, enclose_io_converted, "dll")
+			),
+			LoadLibrary(
+				mkdir_workdir_expanded
+			)
+		);
+	}
+	else {	//its not enclosed fs, we just load library as normally
+		printf("[ELL: not enclosed fs, load dll normally]\n");
+		return LoadLibraryW(
+			lpLibFileName
+		);
+	}
+}
+
+
+HMODULE
+EncloseIOLoadLibraryExW(
+	LPCWSTR lpLibFileName,
+	HANDLE hFile,
+	DWORD dwFlags
+)
+{
+	//#error compiling enclose load library
+	printf("ELL: EncloseIOLoadLibraryExW() called\n");
+
+	//relative path
+	if (enclose_io_cwd[0] && enclose_io_is_relative_w(lpLibFileName)) {
+		sqfs_path enclose_io_expanded;
+		size_t enclose_io_cwd_len;
+		size_t memcpy_len;
+		sqfs_path enclose_io_converted_storage;
+		char *enclose_io_converted;
+		char *enclose_io_i;
+		size_t enclose_io_converted_length;
+
+		W_ENCLOSE_IO_PATH_CONVERT(lpLibFileName);
+		ENCLOSE_IO_GEN_EXPANDED_NAME(enclose_io_converted);
+		
+		printf("ELL: enclose expanded: %s\n", enclose_io_expanded);
+		//printf("ELL: mkdir: %s\n", mkdir_workdir_expanded);
 		ENCLOSE_IO_CONSIDER_MKDIR_WORKDIR_RETURN(
 			enclose_io_expanded,
 			LoadLibraryExW(
@@ -1090,6 +1160,7 @@ EncloseIOLoadLibraryExW(
 			)
 		);
 	}
+	//absolute path
 	else if (enclose_io_is_path_w(lpLibFileName)) {
 		sqfs_path enclose_io_converted_storage;
 		char *enclose_io_converted;
@@ -1098,6 +1169,8 @@ EncloseIOLoadLibraryExW(
 
 		W_ENCLOSE_IO_PATH_CONVERT(lpLibFileName);
 		
+		printf("ELL: enclose converted: %s\n", enclose_io_converted);
+		//printf("ELL: mkdir: %s\n", mkdir_workdir_expanded);
 		ENCLOSE_IO_CONSIDER_MKDIR_WORKDIR_RETURN(
 			enclose_io_converted,
 			LoadLibraryExW(
@@ -1112,7 +1185,8 @@ EncloseIOLoadLibraryExW(
 			)
 		);
 	}
-	else {
+	else {	//its not enclosed fs, we just load library as normally
+		printf("[ELL: not enclosed fs, load dll normally]\n");
 		return LoadLibraryExW(
 			lpLibFileName,
 			hFile,
