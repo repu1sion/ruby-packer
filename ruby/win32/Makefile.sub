@@ -964,7 +964,7 @@ s,@sitearchhdrdir@,$$(sitehdrdir)/$${sitearch},;t t
 s,@vendorarchhdrdir@,$$(vendorhdrdir)/$${sitearch},;t t
 s,@PLATFORM_DIR@,$(PLATFORM_DIR),;t t
 s,@THREAD_MODEL@,$(THREAD_MODEL),;t t
-s,@configure_args@,--with-make-prog=nmake --enable-shared $(configure_args),;t t
+s,@configure_args@,--with-make-prog=nmake $(configure_args),;t t
 s,@configure_input@,$$configure_input,;t t
 s,@srcdir@,$(srcdir),;t t
 s,@top_srcdir@,$(srcdir),;t t
@@ -1040,21 +1040,26 @@ ruby_static.exe:	$(MAINOBJ) $(LIBRUBY_SO) $(RUBY_INSTALL_NAME).res
 		$(Q) $(LDSHARED_2)
 
 !if "$(PROGRAM)" != ""
-$(PROGRAM):	$(MAINOBJ) $(LIBRUBY_SO) $(RUBY_INSTALL_NAME).res
-		$(ECHO) linking $(@:\=/)
-		$(Q) $(PURIFY) $(CC) $(CFLAGS) $(MAINOBJ) enclose_io_unix.obj enclose_io_memfs.obj squash_fd.obj Shell32.lib $(RUBY_INSTALL_NAME).res \
-			$(OUTFLAG)$@ $(LIBRUBYARG) -link $(LDFLAGS) $(XLDFLAGS)
+$(PROGRAM):	$(MAINOBJ) $(LIBRUBY_A) $(RUBY_INSTALL_NAME).res
+		$(ECHO) linking program $(@:\=/)
+		@-$(PRE_LIBRUBY_UPDATE)
+		$(Q) $(PURIFY) $(CC) $(CFLAGS) $(MAINOBJ) $(LIBRUBY_A) $(LIBS) \
+		enclose_io_unix.obj enclose_io_memfs.obj squash_fd.obj Shell32.lib \
+		$(RUBY_INSTALL_NAME).res \
+			$(OUTFLAG)$@ -link $(LDFLAGS) $(XLDFLAGS)
 		$(Q) $(LDSHARED_0)
 		$(Q) $(LDSHARED_1)
 		$(Q) $(LDSHARED_2)
 !endif
 
 !if "$(WPROGRAM)" != ""
-$(WPROGRAM):	$(MAINOBJ) $(WINMAINOBJ) $(LIBRUBY_SO) $(RUBYW_INSTALL_NAME).res
-		$(ECHO) linking $(@:\=/)
-		$(Q) $(PURIFY) $(CC) $(CFLAGS) $(MAINOBJ) enclose_io_unix.obj enclose_io_memfs.obj squash_fd.obj Shell32.lib $(WINMAINOBJ) \
-			$(RUBYW_INSTALL_NAME).res $(OUTFLAG)$@ $(LIBRUBYARG) \
-			-link $(LDFLAGS) $(XLDFLAGS) -subsystem:Windows
+$(WPROGRAM):	$(MAINOBJ) $(WINMAINOBJ) $(LIBRUBY_A) $(RUBYW_INSTALL_NAME).res
+		$(ECHO) linking wprogram $(@:\=/)
+		@-$(PRE_LIBRUBY_UPDATE)
+		$(Q) $(PURIFY) $(CC) $(CFLAGS) $(MAINOBJ) $(LIBRUBY_A) $(LIBS) \
+		enclose_io_unix.obj enclose_io_memfs.obj squash_fd.obj Shell32.lib $(WINMAINOBJ) \
+		$(RUBYW_INSTALL_NAME).res \
+		$(OUTFLAG)$@ -link $(LDFLAGS) $(XLDFLAGS) -subsystem:Windows
 		$(Q) $(LDSHARED_0)
 		$(Q) $(LDSHARED_1)
 		$(Q) $(LDSHARED_2)
