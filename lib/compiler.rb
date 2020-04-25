@@ -370,14 +370,18 @@ class Compiler
           @compile_env['ENCLOSE_IO_RUBYC_1ST_PASS'] = '1'
           @compile_env['ENCLOSE_IO_RUBYC_2ND_PASS'] = nil
           # enclose_io_memfs.o - 1st pass
-          @utils.run(@compile_env, "call win32\\configure.bat \
-                                  --disable-install-doc \
-                                  --prefix=#{@utils.escape @ruby_build}")
-          @utils.run(@compile_env, "nmake #{@options[:nmake_args]}")
-          @utils.run(@compile_env, "nmake install")
           File.open(File.join(@options[:tmpdir], @ruby_dir, 'ext', 'Setup'), 'w') do |f|
             f.puts 'option nodynamic'
           end
+          @utils.run(@compile_env, "call win32\\configure.bat \
+                                  --disable-install-doc \
+                                  --with-static-linked-ext \
+                                  --prefix=#{@utils.escape @ruby_build}")
+          @utils.run_allow_failures(@compile_env, "nmake #{@options[:nmake_args]}")
+          @utils.run(@compile_env, %Q{nmake #{@options[:nmake_args]} -f enc.mk V="0" UNICODE_HDR_DIR="./enc/unicode/9.0.0"  RUBY=".\\miniruby.exe -I./lib -I. " MINIRUBY=".\\miniruby.exe -I./lib -I. " -l libenc})
+          @utils.run(@compile_env, %Q{nmake #{@options[:nmake_args]} -f enc.mk V="0" UNICODE_HDR_DIR="./enc/unicode/9.0.0"  RUBY=".\\miniruby.exe -I./lib -I. " MINIRUBY=".\\miniruby.exe -I./lib -I. " -l libtrans})
+          @utils.run(@compile_env, "nmake #{@options[:nmake_args]}")
+          @utils.run(@compile_env, "nmake install")
           # TODO make those win32 ext work
           @utils.chdir('ext') do
           #@utils.rm_rf('dbm')
@@ -394,6 +398,11 @@ class Compiler
           #@utils.rm_rf('win32')
             @utils.rm_rf('win32ole')
           end
+
+          #@utils.chdir('build/bin') do
+          #  @utils.rm_rf('x64-vcruntime140-ruby240.dll')
+          #  puts("removed build/bin/*ruby*.dll")
+          #end 
           # PATCH win32\Makefile.sub for 2nd pass
           if Gem.win_platform?
             target = File.join(@options[:tmpdir], @ruby_dir, 'win32', 'Makefile.sub')
