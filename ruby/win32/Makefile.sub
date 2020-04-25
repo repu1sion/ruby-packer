@@ -911,7 +911,7 @@ s,@LIBRUBYARG_STATIC@,$$(LIBRUBY_A),;t t
 s,@LIBRUBYARG_SHARED@,$$(LIBRUBY),;t t
 s,@SOLIBS@,$(SOLIBS),;t t
 s,@DLDLIBS@,$(DLDLIBS),;t t
-s,@ENABLE_SHARED@,yes,;t t
+s,@ENABLE_SHARED@,,;t t
 s,@BASERUBY@,$(BASERUBY),;t t
 s,@OUTFLAG@,$(OUTFLAG),;t t
 s,@COUTFLAG@,$(COUTFLAG),;t t
@@ -1046,6 +1046,47 @@ $(PROGRAM):	$(MAINOBJ) $(LIBRUBY_A) $(RUBY_INSTALL_NAME).res
 		$(Q) $(PURIFY) $(CC) $(CFLAGS) $(MAINOBJ) $(LIBRUBY_A) $(LIBS) \
 		enclose_io_unix.obj enclose_io_memfs.obj squash_fd.obj Shell32.lib \
 		$(RUBY_INSTALL_NAME).res \
+			enc\*.obj enc\*.lib ext\extinit.obj \
+			ext\bigdecimal\bigdecimal.lib \
+			ext\cgi\escape\escape.lib \
+			ext\continuation\continuation.lib \
+			ext\coverage\coverage.lib \
+			ext\date\date_core.lib \
+			ext\fcntl\fcntl.lib \
+			ext\fiber\fiber.lib \
+			ext\io\console\console.lib \
+			ext\io\nonblock\nonblock.lib \
+			ext\io\wait\wait.lib \
+			ext\json\generator\generator.lib \
+			ext\json\parser\parser.lib \
+			ext\nkf\nkf.lib \
+			ext\objspace\objspace.lib \
+			ext\pathname\pathname.lib \
+			ext\psych\psych.lib \
+			ext\racc\cparse\cparse.lib \
+			ext\rbconfig\sizeof\sizeof.lib \
+			ext\sdbm\sdbm.lib \
+			ext\stringio\stringio.lib \
+			ext\strscan\strscan.lib \
+			ext\digest\digest.lib \
+			ext\digest\bubblebabble\bubblebabble.lib \
+			ext\digest\md5\md5.lib \
+			ext\digest\rmd160\rmd160.lib \
+			ext\digest\sha1\sha1.lib \
+			ext\digest\sha2\sha2.lib \
+			ext\etc\etc.lib \
+			ext\fiddle\fiddle.lib \
+			ext\fiddle\libffi-3.2.1\.libs\libffi_convenience.lib \
+			ext\mathn\complex\complex.lib \
+			ext\mathn\rational\rational.lib \
+			ext\ripper\ripper.lib \
+			ext\socket\socket.lib \
+			ext\win32\resolv\resolv.lib \
+			ext\zlib\zlib.lib \
+			..\zlib\zlib.lib \
+			ext\openssl\openssl.lib \
+			..\openssl\libcrypto.lib \
+			..\openssl\libssl.lib \
 			$(OUTFLAG)$@ -link $(LDFLAGS) $(XLDFLAGS)
 		$(Q) $(LDSHARED_0)
 		$(Q) $(LDSHARED_1)
@@ -1059,6 +1100,47 @@ $(WPROGRAM):	$(MAINOBJ) $(WINMAINOBJ) $(LIBRUBY_A) $(RUBYW_INSTALL_NAME).res
 		$(Q) $(PURIFY) $(CC) $(CFLAGS) $(MAINOBJ) $(LIBRUBY_A) $(LIBS) \
 		enclose_io_unix.obj enclose_io_memfs.obj squash_fd.obj Shell32.lib $(WINMAINOBJ) \
 		$(RUBYW_INSTALL_NAME).res \
+			enc\*.obj enc\*.lib ext\extinit.obj \
+			ext\bigdecimal\bigdecimal.lib \
+			ext\cgi\escape\escape.lib \
+			ext\continuation\continuation.lib \
+			ext\coverage\coverage.lib \
+			ext\date\date_core.lib \
+			ext\fcntl\fcntl.lib \
+			ext\fiber\fiber.lib \
+			ext\io\console\console.lib \
+			ext\io\nonblock\nonblock.lib \
+			ext\io\wait\wait.lib \
+			ext\json\generator\generator.lib \
+			ext\json\parser\parser.lib \
+			ext\nkf\nkf.lib \
+			ext\objspace\objspace.lib \
+			ext\pathname\pathname.lib \
+			ext\psych\psych.lib \
+			ext\racc\cparse\cparse.lib \
+			ext\rbconfig\sizeof\sizeof.lib \
+			ext\sdbm\sdbm.lib \
+			ext\stringio\stringio.lib \
+			ext\strscan\strscan.lib \
+			ext\digest\digest.lib \
+			ext\digest\bubblebabble\bubblebabble.lib \
+			ext\digest\md5\md5.lib \
+			ext\digest\rmd160\rmd160.lib \
+			ext\digest\sha1\sha1.lib \
+			ext\digest\sha2\sha2.lib \
+			ext\etc\etc.lib \
+			ext\fiddle\fiddle.lib \
+			ext\fiddle\libffi-3.2.1\.libs\libffi_convenience.lib \
+			ext\mathn\complex\complex.lib \
+			ext\mathn\rational\rational.lib \
+			ext\ripper\ripper.lib \
+			ext\socket\socket.lib \
+			ext\win32\resolv\resolv.lib \
+			ext\zlib\zlib.lib \
+			..\zlib\zlib.lib \
+			ext\openssl\openssl.lib \
+			..\openssl\libcrypto.lib \
+			..\openssl\libssl.lib \
 		$(OUTFLAG)$@ -link $(LDFLAGS) $(XLDFLAGS) -subsystem:Windows
 		$(Q) $(LDSHARED_0)
 		$(Q) $(LDSHARED_1)
