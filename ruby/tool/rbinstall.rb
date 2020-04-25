@@ -301,7 +301,7 @@ def prepare(mesg, basedir, subdirs=nil)
   else
     dirs = [basedir, *subdirs.collect {|dir| File.join(basedir, dir)}]
   end
-  printf("installing %-18s %s%s\n", "#{mesg}:", basedir,
+  printf("rbinstall installing %-18s %s%s\n", "#{mesg}:", basedir,
          (subdirs ? " (#{subdirs.join(', ')})" : ""))
   makedirs(dirs)
 end
@@ -350,9 +350,9 @@ install?(:local, :arch, :bin, :'bin-arch') do
   if File.exist? goruby_install_name+exeext
     install goruby_install_name+exeext, bindir, :mode => $prog_mode, :strip => $strip
   end
-  if enable_shared and dll != lib
-    install dll, bindir, :mode => $prog_mode, :strip => $strip
-  end
+#  if enable_shared and dll != lib
+#    install dll, bindir, :mode => $prog_mode, :strip => $strip
+#  end
 end
 
 install?(:local, :arch, :lib) do
